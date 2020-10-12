@@ -7,6 +7,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer'
 // import { Ionicons } from '@expo/vector-icons'
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen'
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen'
+import CardScreen from '../screens/shop/CardScreen'
 import OrdersScreen from '../screens/shop/OrdersScreen'
 import Colors from '../constants/Colors'
 
@@ -34,6 +35,12 @@ const ProductsNavigator = createStackNavigator(
 		ProductDetail: {
 			screen: ProductDetailScreen,
 		},
+		CardScreen: {
+			screen: CardScreen,
+		},
+		OrdersScreen: {
+			screen: OrdersScreen,
+		},
 	},
 	{ defaultNavigationOptions: defaultStackNavOptions },
 )
@@ -49,6 +56,7 @@ const MainNavigator = createDrawerNavigator(
 		Orders: OrdersScreen,
 	},
 	{
+		defaultNavigationOptions: defaultStackNavOptions,
 		contentOptions: {
 			activeTintColor: Colors.accent,
 			itemStyle: { marginVertical: 10 },
