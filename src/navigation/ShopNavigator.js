@@ -26,21 +26,10 @@ const defaultStackNavOptions = {
 
 const ProductsNavigator = createStackNavigator(
 	{
-		ProductsOverview: {
-			screen: ProductsOverviewScreen,
-			// navigationOptions: {
-			// 	headerTitle: 'Meal Categories',
-			// },
-		},
-		ProductDetail: {
-			screen: ProductDetailScreen,
-		},
-		CardScreen: {
-			screen: CardScreen,
-		},
-		OrdersScreen: {
-			screen: OrdersScreen,
-		},
+		ProductsOverview: ProductsOverviewScreen,
+		ProductDetail: ProductDetailScreen,
+		CardScreen: CardScreen,
+		OrdersScreen: OrdersScreen,
 	},
 	{ defaultNavigationOptions: defaultStackNavOptions },
 )

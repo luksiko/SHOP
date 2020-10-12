@@ -1,10 +1,54 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { useSelector } from 'react-redux'
+import { ScrollView, View, StyleSheet, Text, Image, Button } from 'react-native'
+import Colors from '../../constants/Colors'
 
 const ProductDetailScreen = (props) => {
-	return <View style={{ ...styles.STYLENAME, ...props.style }}></View>
-}
+	const product = useSelector((state) => state.produsts.availableProducts)
+	const productId = props.navigation.getParam('productId')
+	const selectedProduct = product.find((prod) => prod.id === productId)
 
-const styles = StyleSheet.create({ STYLENAME: {} })
+	// props.navigation.setParams({ mealTitle: selectedProduct.title })
+
+	return (
+		<ScrollView>
+			<Image source={{ uri: selectedProduct.imageUrl }} style={styles.image} />
+			<View style={styles.action}>
+				<Button color={Colors.primary} title='Add to Cart' onPress={() => {}} />
+			</View>
+			<Text style={styles.price}>${selectedProduct.price.toFixed(2)}</Text>
+			<Text style={styles.description}>{selectedProduct.description}</Text>
+		</ScrollView>
+	)
+}
+ProductDetailScreen.navigationOptions = (navData) => {
+	return {
+		headerTitle: navData.navigation.getParam('productTitle'),
+	}
+}
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
+	action: {
+		marginVertical: 10,
+		alignItems: 'center',
+	},
+	image: {
+		width: '100%',
+		height: 300,
+	},
+	price: {
+		fontSize: 20,
+		color: '#888',
+		textAlign: 'center',
+		marginVertical: 22,
+	},
+	description: {
+		fontSize: 14,
+		textAlign: 'center',
+		marginHorizontal: 20,
+	},
+})
 
 export default ProductDetailScreen
