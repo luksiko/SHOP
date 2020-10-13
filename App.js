@@ -3,14 +3,17 @@ import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 import * as Font from 'expo-font'
 import { AppLoading } from 'expo'
-import ShopNavigator from './src/navigation/ShopNavigator'
-import ProductsOverviewScreen from './src/screens/shop/ProductsOverviewScreen'
+import { composeWithDevTools } from 'redux-devtools-extension' //!!! удалит перед деплоем
+
 import productsReducer from './src/store/reducers/products'
+import cartReducer from './src/store/reducers/cart'
+import ShopNavigator from './src/navigation/ShopNavigator'
 
 const rootReduser = combineReducers({
 	produsts: productsReducer,
+	cart: cartReducer,
 })
-const store = createStore(rootReduser)
+const store = createStore(rootReduser, composeWithDevTools()) //! composeWithDevTools() удалит перед деплоем
 
 const fetchFonts = () => {
 	return Font.loadAsync({
