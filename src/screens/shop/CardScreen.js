@@ -1,10 +1,13 @@
 import React from 'react'
 import { View, StyleSheet, Text, FlatList, Button } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import CartItem from '../../components/shop/CartItem'
 import Colors from '../../constants/Colors'
+import * as cartActions from '../../store/actions/cart'
 
 const CardScreen = (props) => {
+	const dispatch = useDispatch()
+
 	const cartTotalAmount = useSelector((state) => state.cart.totalAmount)
 	const cartItems = useSelector((state) => {
 		const transformedCartItem = []
@@ -17,10 +20,11 @@ const CardScreen = (props) => {
 				sum: state.cart.items[key].sum,
 			})
 		}
-		return transformedCartItem
+		return transformedCartItem.sort((a, b) =>
+			a.productId > b.productId ? 1 : -1,
+		) // добавим сортировку к массиву.
 	})
 
-	console.log({ ...cartItems })
 	return (
 		<View style={styles.screen}>
 			<View style={styles.summary}>
@@ -43,7 +47,9 @@ const CardScreen = (props) => {
 							quantity={itemData.item.quantity}
 							title={itemData.item.productTitle}
 							amount={itemData.item.sum}
-							onRemove={() => {}}
+							onRemove={() =>
+								dispatch(cartActions.removeFromCart(itemData.item.productId))
+							}
 						/>
 					)}
 				/>
