@@ -9,7 +9,7 @@ class Order {
 	}
 
 	get readableDate() {
-		// return this.date.toLocaleDateString('en-EN', {
+		// return this.date.toLocaleDateString('en-EN', {// ЭТО работает только у IOS
 		// 	year: 'numeric',
 		// 	month: 'long',
 		// 	day: 'numeric',
