@@ -38,7 +38,7 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					title='Menu'
-					iconName='ios-menu'
+					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
 					iconSize={27}
 					onPress={() => {
 						navData.navigation.toggleDrawer()

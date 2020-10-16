@@ -1,19 +1,17 @@
 import React from 'react'
 import { View, StyleSheet, Text, FlatList, Button } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import CartItem from '../../components/shop/CartItem'
 import Colors from '../../constants/Colors'
+import CartItem from '../../components/shop/CartItem'
 import * as cartActions from '../../store/actions/cart'
 import * as ordersActions from '../../store/actions/order'
 
-const CardScreen = (props) => {
-	const dispatch = useDispatch()
-
+const CartScreen = (props) => {
 	const cartTotalAmount = useSelector((state) => state.cart.totalAmount)
 	const cartItems = useSelector((state) => {
-		const transformedCartItem = []
+		const transformedCartItems = []
 		for (const key in state.cart.items) {
-			transformedCartItem.push({
+			transformedCartItems.push({
 				productId: key,
 				productTitle: state.cart.items[key].productTitle,
 				productPrice: state.cart.items[key].productPrice,
@@ -21,10 +19,11 @@ const CardScreen = (props) => {
 				sum: state.cart.items[key].sum,
 			})
 		}
-		return transformedCartItem.sort((a, b) =>
+		return transformedCartItems.sort((a, b) =>
 			a.productId > b.productId ? 1 : -1,
 		) // добавим сортировку к массиву.
 	})
+	const dispatch = useDispatch()
 
 	return (
 		<View style={styles.screen}>
@@ -42,26 +41,27 @@ const CardScreen = (props) => {
 					}}
 				/>
 			</View>
-			<View>
-				<FlatList
-					data={cartItems}
-					keyExtractor={(item) => item.productId}
-					renderItem={(itemData) => (
-						<CartItem
-							quantity={itemData.item.quantity}
-							title={itemData.item.productTitle}
-							amount={itemData.item.sum}
-							onRemove={() =>
-								dispatch(cartActions.removeFromCart(itemData.item.productId))
-							}
-						/>
-					)}
-				/>
-			</View>
+			<FlatList
+				data={cartItems}
+				keyExtractor={(item) => item.productId}
+				renderItem={(itemData) => (
+					<CartItem
+						quantity={itemData.item.quantity}
+						title={itemData.item.productTitle}
+						amount={itemData.item.sum}
+						onRemove={() =>
+							dispatch(cartActions.removeFromCart(itemData.item.productId))
+						}
+					/>
+				)}
+			/>
 		</View>
 	)
 }
 
+CartScreen.navigationOptions = {
+	headerTitle: 'Your Cart',
+}
 const styles = StyleSheet.create({
 	screen: {
 		margin: 20,
@@ -83,11 +83,10 @@ const styles = StyleSheet.create({
 	summaryText: {
 		fontFamily: 'open-sans-bold',
 		fontSize: 18,
-		color: 'black',
 	},
 	amount: {
 		color: Colors.primary,
 	},
 })
 
-export default CardScreen
+export default CartScreen

@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
 			const newOrder = new Order(
 				new Date().toString(),
 				action.orderData.items,
-				action.amount,
+				action.orderData.amount,
 				new Date(),
 			)
 			return {
