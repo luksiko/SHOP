@@ -1,5 +1,5 @@
-export const SET_FILTERS = 'SET_FILTERS'
+export const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
-export const setFilters = (filterSettings) => {
-	return { type: SET_FILTERS, filters: filterSettings }
+export const deleteProduct = productId => {
+	return { type: DELETE_PRODUCT, pid: productId }
 }
