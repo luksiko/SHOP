@@ -10,12 +10,12 @@ import cartReducer from './src/store/reducers/cart'
 import ordersReducer from './src/store/reducers/order'
 import ShopNavigator from './src/navigation/ShopNavigator'
 
-const rootReduser = combineReducers({
+const rootReducer = combineReducers({
 	produsts: productsReducer,
 	cart: cartReducer,
 	orders: ordersReducer,
 })
-const store = createStore(rootReduser, composeWithDevTools()) //! composeWithDevTools() удалит перед деплоем
+const store = createStore(rootReducer, composeWithDevTools()) //! composeWithDevTools() удалит перед деплоем
 
 const fetchFonts = () => {
 	return Font.loadAsync({
