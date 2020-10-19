@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { View, StyleSheet, Text, TextInput, Platform } from 'react-native'
 import { useSelector } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -20,6 +20,14 @@ const EditProductScreen = (props) => {
 	const [description, setDescription] = useState(
 		editedProduct ? editedProduct.description : '',
 	)
+
+	const submitHandler = useCallback(() => {
+		console.log('Submitting!')
+	}, [])
+
+	useEffect(() => {
+		props.navigation.setParams({ submit: submitHandler })
+	}, [submitHandler])
 
 	return (
 		<ScrollView>
