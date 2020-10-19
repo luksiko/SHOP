@@ -1,9 +1,9 @@
 import React from 'react'
-import { StyleSheet, Platform, FlatList, Button } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
+import {Platform, FlatList, Button} from 'react-native'
+import {useSelector, useDispatch} from 'react-redux'
 import * as cartActions from '../../store/actions/cart'
 import ProductItem from '../../components/shop/ProductItem'
-import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import {HeaderButtons, Item} from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
 
@@ -73,13 +73,5 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
 		),
 	}
 }
-
-const styles = StyleSheet.create({
-	content: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-})
 
 export default ProductsOverviewScreen

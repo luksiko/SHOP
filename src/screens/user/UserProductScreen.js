@@ -9,7 +9,11 @@ import * as productsActions from '../../store/actions/products'
 
 const UserProductScreen = (props) => {
 	const userProducts = useSelector((state) => state.produsts.userProducts)
-	const  dispatch = useDispatch()
+	const dispatch = useDispatch()
+
+	const editProductHandler = (id) => {
+		props.navigation.navigate('EditProduct', { productId: id })
+	}
 
 	return (
 		<FlatList
@@ -20,10 +24,18 @@ const UserProductScreen = (props) => {
 					uri={itemData.item.imageUrl}
 					price={itemData.item.price}
 					onSelectItem={() => {}}>
-					<Button color={Colors.primary} s title='Edit' onPress={() => {}} />
-					<Button color={Colors.primary} title='Delete' onPress={() => {
-						dispatch(productsActions.deleteProduct(itemData.item.id))
-					}} />
+					<Button
+						color={Colors.primary}
+						title='Edit'
+						onPress={() => editProductHandler(itemData.item.id)}
+					/>
+					<Button
+						color={Colors.primary}
+						title='Delete'
+						onPress={() => {
+							dispatch(productsActions.deleteProduct(itemData.item.id))
+						}}
+					/>
 				</ProductItem>
 			)}
 		/>
@@ -40,6 +52,18 @@ UserProductScreen.navigationOptions = (navData) => {
 					iconSize={27}
 					onPress={() => {
 						navData.navigation.toggleDrawer()
+					}}
+				/>
+			</HeaderButtons>
+		),
+		headerRight: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title='Menu'
+					iconName={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+					iconSize={27}
+					onPress={() => {
+						navData.navigation.navigate('EditProduct')
 					}}
 				/>
 			</HeaderButtons>
