@@ -1,14 +1,14 @@
 import React from 'react'
-import {Platform, FlatList, Button} from 'react-native'
-import {useSelector, useDispatch} from 'react-redux'
+import { Platform, FlatList, Button } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux'
 import * as cartActions from '../../store/actions/cart'
 import ProductItem from '../../components/shop/ProductItem'
-import {HeaderButtons, Item} from 'react-navigation-header-buttons'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
 
 const ProductsOverviewScreen = (props) => {
-	const products = useSelector((state) => state.produsts.availableProducts)
+	const products = useSelector((state) => state.products.availableProducts)
 
 	const dispatch = useDispatch()
 

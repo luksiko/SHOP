@@ -1,29 +1,47 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { View, StyleSheet, Text, TextInput, Platform } from 'react-native'
-import { useSelector } from 'react-redux'
-import { ScrollView } from 'react-native-gesture-handler'
+import {
+	View,
+	ScrollView,
+	Text,
+	TextInput,
+	StyleSheet,
+	Platform,
+} from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import { useSelector, useDispatch } from 'react-redux'
+
+import * as productsActions from '../../store/actions/products'
 
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 const EditProductScreen = (props) => {
 	const prodId = props.navigation.getParam('productId')
 	const editedProduct = useSelector((state) =>
-		state.produsts.userProducts.find((prod) => prod.id === prodId),
+		state.products.userProducts.find((prod) => prod.id === prodId),
 	)
+
+	const dispatch = useDispatch()
 
 	const [title, setTitle] = useState(editedProduct ? editedProduct.title : '')
 	const [imageUrl, setImageUrl] = useState(
 		editedProduct ? editedProduct.imageUrl : '',
 	)
-	const [price, setPrice] = useState(editedProduct ? editedProduct.price : '')
+	const [price, setPrice] = useState('')
 	const [description, setDescription] = useState(
 		editedProduct ? editedProduct.description : '',
 	)
 
 	const submitHandler = useCallback(() => {
-		console.log('Submitting!')
-	}, [])
+		if (editedProduct) {
+			dispatch(
+				productsActions.updateProduct(prodId, title, description, imageUrl),
+			)
+		} else {
+			dispatch(
+				productsActions.createProduct(title, description, imageUrl, +price),
+			)
+		}
+	}, [dispatch, prodId, title, description, imageUrl, price])
 
 	useEffect(() => {
 		props.navigation.setParams({ submit: submitHandler })

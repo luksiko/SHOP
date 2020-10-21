@@ -5,7 +5,7 @@ import Colors from '../../constants/Colors'
 import * as cartActions from '../../store/actions/cart'
 
 const ProductDetailScreen = (props) => {
-	const product = useSelector((state) => state.produsts.availableProducts)
+	const product = useSelector((state) => state.products.availableProducts)
 	const productId = props.navigation.getParam('productId')
 	const selectedProduct = product.find((prod) => prod.id === productId)
 

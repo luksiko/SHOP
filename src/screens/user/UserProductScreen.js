@@ -8,7 +8,7 @@ import Colors from '../../constants/Colors'
 import * as productsActions from '../../store/actions/products'
 
 const UserProductScreen = (props) => {
-	const userProducts = useSelector((state) => state.produsts.userProducts)
+	const userProducts = useSelector((state) => state.products.userProducts)
 	const dispatch = useDispatch()
 
 	const editProductHandler = (id) => {
