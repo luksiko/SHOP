@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import * as productsActions from '../../store/actions/products'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
+import Input from '../../components/UI/Input'
 
 const FORM_INPUT_UPDATE = 'UPDATE'
 
@@ -114,51 +115,34 @@ const EditProductScreen = (props) => {
 	return (
 		<ScrollView>
 			<View style={styles.form}>
-				<View style={styles.formControl}>
-					<Text style={styles.label}>Title</Text>
-					<TextInput
-						style={styles.input}
-						value={formState.inputValues.title}
-						onChangeText={textChangeHandler.bind(this, 'title')}
-						keyboardType='default'
-						autoCapitalize='sentences'
-						autoCorrect
-						returnKeyType='next' // контролирует иконку в правом углу
-						onEndEditing={() => {
-							console.log('onEndEditing')
-						}}
-					/>
-					{!formState.inputValidities.title && (
-						<Text>Please enter a valide title</Text>
-					)}
-				</View>
-				<View style={styles.formControl}>
-					<Text style={styles.label}>Image URL</Text>
-					<TextInput
-						style={styles.input}
-						value={formState.inputValues.imageUrl}
-						onChangeText={textChangeHandler.bind(this, 'imageUrl')}
-						keyboardType={Platform.OS === 'ios' ? 'url' : 'default'}
-					/>
-				</View>
-				{editedProduct ? null : (
-					<View style={styles.formControl}>
-						<Text style={styles.label}>Price</Text>
-						<TextInput
-							style={styles.input}
-							value={formState.inputValues.price}
-							onChangeText={textChangeHandler.bind(this, 'price')}
-							keyboardType='decimal-pad'
-						/>
-					</View>
-				)}
-				<View style={styles.formControl}>
-					<Text style={styles.label}>Description</Text>
-					<TextInput
-						style={styles.input}
-						value={formState.inputValues.description}
-						onChangeText={textChangeHandler.bind(this, 'description')}
-					/>
+				<Input
+					label='Title'
+					errorText='Please enter a valide title'
+					keyboardType='default'
+					autoCapitalize='sentences'
+					autoCorrect
+					returnKeyType='next' // контролирует иконку в правом углу
+				/>
+				<Input
+					label='Image URL'
+					errorText='Please enter a valide Image URL'
+					keyboardType='default'
+					returnKeyType='next' // контролирует иконку в правом углу
+				/>
+				<Input
+					label='Price'
+					errorText='Please enter a valide Price'
+					keyboardType='decimal-pad'
+					returnKeyType='next' // контролирует иконку в правом углу
+				/>
+				<Input
+					label='Description'
+					errorText='Please enter a valide Description'
+					keyboardType='default'
+					autoCorrect
+					multiline
+					numberOfLines={3}
+				/>
 				</View>
 			</View>
 		</ScrollView>
