@@ -15,7 +15,7 @@ import * as productsActions from '../../store/actions/products'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import Input from '../../components/UI/Input'
 
-const FORM_INPUT_UPDATE = 'UPDATE'
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE'
 
 const formReducer = (state, action) => {
 	if (action.type === FORM_INPUT_UPDATE) {
@@ -67,7 +67,7 @@ const EditProductScreen = (props) => {
 	const submitHandler = useCallback(() => {
 		if (!formState.formIsValid) {
 			Alert.alert('Wrong input!', 'Please check the errors in the form', [
-				{ text: 'Ok' },
+				{ text: 'Okay' },
 			])
 			return
 		}
@@ -97,51 +97,71 @@ const EditProductScreen = (props) => {
 		props.navigation.setParams({ submit: submitHandler })
 	}, [submitHandler])
 
-	const textChangeHandler = (inputIdentifier, text) => {
-		// text - автоматически передается как аргумент textInput
-		let isValid = false
-		// проверяем, чтобы чтото было введено
-		if (text.trim().length > 0) {
-			isValid = true
-		}
-		dispatchFormState({
-			type: FORM_INPUT_UPDATE,
-			value: text,
-			isValid: isValid,
-			input: inputIdentifier,
-		})
-	}
+	const inputChangeHandler = useCallback(
+		(inputIdentifier, inputValue, inputValidity) => {
+			dispatchFormState({
+				type: FORM_INPUT_UPDATE,
+				value: inputValue,
+				isValid: inputValidity,
+				input: inputIdentifier,
+			})
+		},
+		[dispatchFormState],
+	)
 
 	return (
 		<ScrollView>
 			<View style={styles.form}>
 				<Input
+					id='title'
 					label='Title'
 					errorText='Please enter a valide title'
 					keyboardType='default'
 					autoCapitalize='sentences'
 					autoCorrect
 					returnKeyType='next' // контролирует иконку в правом углу
+					onInputChange={inputChangeHandler}
+					initialValue={editedProduct ? editedProduct.title : ''}
+					initiallyValid={!!editedProduct}
+					required
 				/>
 				<Input
+					id='imageUrl'
 					label='Image URL'
 					errorText='Please enter a valide Image URL'
 					keyboardType='default'
-					returnKeyType='next' // контролирует иконку в правом углу
+					returnKeyType='next'
+					onInputChange={inputChangeHandler}
+					initialValue={editedProduct ? editedProduct.imageUrl : ''}
+					initiallyValid={!!editedProduct}
+					required
 				/>
+				{!editedProduct && (
+					<Input
+						id='price'
+						label='Price'
+						errorText='Please enter a valide Price'
+						keyboardType='decimal-pad'
+						returnKeyType='next'
+						onInputChange={inputChangeHandler}
+						required
+						min={0.1}
+					/>
+				)}
 				<Input
-					label='Price'
-					errorText='Please enter a valide Price'
-					keyboardType='decimal-pad'
-					returnKeyType='next' // контролирует иконку в правом углу
-				/>
-				<Input
+					id='description'
 					label='Description'
 					errorText='Please enter a valide Description'
 					keyboardType='default'
+					autoCapitalize='sentences'
 					autoCorrect
 					multiline
 					numberOfLines={3}
+					onInputChange={inputChangeHandler}
+					initialValue={editedProduct ? editedProduct.description : ''}
+					initiallyValid={!!editedProduct}
+					required
+					minLength={5}
 				/>
 			</View>
 		</ScrollView>
@@ -172,19 +192,6 @@ EditProductScreen.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
 	form: {
 		margin: 20,
-	},
-	formControl: {
-		width: '100%',
-	},
-	label: {
-		fontFamily: 'open-sans-bold',
-		marginVertical: 8,
-	},
-	input: {
-		paddingHorizontal: 2,
-		paddingVertical: 5,
-		borderBottomColor: '#ccc',
-		borderBottomWidth: 1,
 	},
 })
 
