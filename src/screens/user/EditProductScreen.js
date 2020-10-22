@@ -143,7 +143,6 @@ const EditProductScreen = (props) => {
 					multiline
 					numberOfLines={3}
 				/>
-				</View>
 			</View>
 		</ScrollView>
 	)
