@@ -6,6 +6,7 @@ import {
 	TextInput,
 	StyleSheet,
 	Platform,
+	Alert,
 } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
@@ -23,6 +24,8 @@ const EditProductScreen = (props) => {
 	const dispatch = useDispatch()
 
 	const [title, setTitle] = useState(editedProduct ? editedProduct.title : '')
+	const [titleIsValid, setTitleIsValid] = useState(false)
+
 	const [imageUrl, setImageUrl] = useState(
 		editedProduct ? editedProduct.imageUrl : '',
 	)
@@ -32,6 +35,12 @@ const EditProductScreen = (props) => {
 	)
 
 	const submitHandler = useCallback(() => {
+		if (!titleIsValid) {
+			Alert.alert('Wrong input!', 'Please check the errors in the form', [
+				{ text: 'Ok' },
+			])
+			return
+		}
 		if (editedProduct) {
 			dispatch(
 				productsActions.updateProduct(prodId, title, description, imageUrl),
@@ -48,6 +57,15 @@ const EditProductScreen = (props) => {
 		props.navigation.setParams({ submit: submitHandler })
 	}, [submitHandler])
 
+	const titleChangeHandler = (text) => {
+		if (text.trim().length === 0) {
+			setTitleIsValid(false)
+		} else {
+			setTitleIsValid(true)
+		}
+		setTitle(text)
+	}
+
 	return (
 		<ScrollView>
 			<View style={styles.form}>
@@ -56,14 +74,16 @@ const EditProductScreen = (props) => {
 					<TextInput
 						style={styles.input}
 						value={title}
-						onChangeText={(text) => setTitle(text)}
+						onChangeText={titleChangeHandler}
 						keyboardType='default'
 						autoCapitalize='sentences'
+						autoCorrect
 						returnKeyType='next' // контролирует иконку в правом углу
 						onEndEditing={() => {
 							console.log('onEndEditing')
 						}}
 					/>
+					{!titleIsValid && <Text>Please enter a valide title</Text>}
 				</View>
 				<View style={styles.formControl}>
 					<Text style={styles.label}>Image URL</Text>
