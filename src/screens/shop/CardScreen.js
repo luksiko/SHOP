@@ -7,9 +7,9 @@ import * as cartActions from '../../store/actions/cart'
 import * as ordersActions from '../../store/actions/order'
 import Card from '../../components/UI/Card'
 
-const CartScreen = (props) => {
-	const cartTotalAmount = useSelector((state) => state.cart.totalAmount)
-	const cartItems = useSelector((state) => {
+const CartScreen = props => {
+	const cartTotalAmount = useSelector(state => state.cart.totalAmount)
+	const cartItems = useSelector(state => {
 		const transformedCartItems = []
 		for (const key in state.cart.items) {
 			transformedCartItems.push({
@@ -20,9 +20,7 @@ const CartScreen = (props) => {
 				sum: state.cart.items[key].sum,
 			})
 		}
-		return transformedCartItems.sort((a, b) =>
-			a.productId > b.productId ? 1 : -1,
-		) // добавим сортировку к массиву.
+		return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1)) // добавим сортировку к массиву.
 	})
 	const dispatch = useDispatch()
 
@@ -47,16 +45,14 @@ const CartScreen = (props) => {
 			</Card>
 			<FlatList
 				data={cartItems}
-				keyExtractor={(item) => item.productId}
-				renderItem={(itemData) => (
+				keyExtractor={item => item.productId}
+				renderItem={itemData => (
 					<CartItem
 						quantity={itemData.item.quantity}
 						title={itemData.item.productTitle}
 						amount={itemData.item.sum}
 						deletable
-						onRemove={() =>
-							dispatch(cartActions.removeFromCart(itemData.item.productId))
-						}
+						onRemove={() => dispatch(cartActions.removeFromCart(itemData.item.productId))}
 					/>
 				)}
 			/>

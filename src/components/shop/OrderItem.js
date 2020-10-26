@@ -4,7 +4,7 @@ import CartItem from './CartItem'
 import Colors from '../../constants/Colors'
 import Card from '../UI/Card'
 
-const OrderItem = (props) => {
+const OrderItem = props => {
 	const [showDetails, setShowDetails] = useState(false)
 
 	return (
@@ -17,12 +17,12 @@ const OrderItem = (props) => {
 				color={Colors.primary}
 				title={showDetails ? 'Hide Details' : 'Show Details'}
 				onPress={() => {
-					setShowDetails((prevState) => !prevState)
+					setShowDetails(prevState => !prevState)
 				}}
 			/>
 			{showDetails && (
 				<View style={styles.detailItems}>
-					{props.items.map((cartItem) => (
+					{props.items.map(cartItem => (
 						<CartItem
 							key={cartItem.productId}
 							quantity={cartItem.quantity}

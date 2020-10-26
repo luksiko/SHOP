@@ -6,10 +6,8 @@ export const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 export const SET_PRODUCTS = 'SET_PRODUCTS'
 
 export const fetchProducts = () => {
-	return async (dispatch) => {
-		const response = await fetch(
-			'https://rn-guide-shop.firebaseio.com/products.json',
-		)
+	return async dispatch => {
+		const response = await fetch('https://rn-guide-shop.firebaseio.com/products.json')
 
 		const resData = await response.json()
 		const loadedProducts = []
@@ -31,22 +29,19 @@ export const fetchProducts = () => {
 	}
 }
 
-export const deleteProduct = (productId) => {
+export const deleteProduct = productId => {
 	return { type: DELETE_PRODUCT, pid: productId }
 }
 
 export const createProduct = (title, description, imageUrl, price) => {
-	return async (dispatch) => {
-		const response = await fetch(
-			'https://rn-guide-shop.firebaseio.com/products.json',
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ title, description, imageUrl, price }),
+	return async dispatch => {
+		const response = await fetch('https://rn-guide-shop.firebaseio.com/products.json', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
 			},
-		)
+			body: JSON.stringify({ title, description, imageUrl, price }),
+		})
 
 		const resData = await response.json()
 

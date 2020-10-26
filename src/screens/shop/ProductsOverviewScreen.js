@@ -8,8 +8,8 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
 
-const ProductsOverviewScreen = (props) => {
-	const products = useSelector((state) => state.products.availableProducts)
+const ProductsOverviewScreen = props => {
+	const products = useSelector(state => state.products.availableProducts)
 	const dispatch = useDispatch()
 	//обращаемся к базе Firebase
 	useEffect(() => {
@@ -26,20 +26,16 @@ const ProductsOverviewScreen = (props) => {
 	return (
 		<FlatList
 			data={products}
-			renderItem={(itemData) => (
+			renderItem={itemData => (
 				<ProductItem
 					uri={itemData.item.imageUrl}
 					title={itemData.item.title}
 					price={itemData.item.price}
-					onSelectItem={() =>
-						selectItemHandler(itemData.item.id, itemData.item.title)
-					}>
+					onSelectItem={() => selectItemHandler(itemData.item.id, itemData.item.title)}>
 					<Button
 						color={Colors.primary}
 						title='View Details'
-						onPress={() =>
-							selectItemHandler(itemData.item.id, itemData.item.title)
-						}
+						onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 					/>
 					<Button
 						color={Colors.primary}
@@ -51,7 +47,7 @@ const ProductsOverviewScreen = (props) => {
 		/>
 	)
 }
-ProductsOverviewScreen.navigationOptions = (navData) => {
+ProductsOverviewScreen.navigationOptions = navData => {
 	return {
 		headerTitle: 'All Products',
 		headerLeft: (

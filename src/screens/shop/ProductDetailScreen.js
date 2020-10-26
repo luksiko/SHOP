@@ -4,10 +4,10 @@ import { ScrollView, View, StyleSheet, Text, Image, Button } from 'react-native'
 import Colors from '../../constants/Colors'
 import * as cartActions from '../../store/actions/cart'
 
-const ProductDetailScreen = (props) => {
-	const product = useSelector((state) => state.products.availableProducts)
+const ProductDetailScreen = props => {
+	const product = useSelector(state => state.products.availableProducts)
 	const productId = props.navigation.getParam('productId')
-	const selectedProduct = product.find((prod) => prod.id === productId)
+	const selectedProduct = product.find(prod => prod.id === productId)
 
 	// props.navigation.setParams({ mealTitle: selectedProduct.title })
 	const dispatch = useDispatch()
@@ -29,7 +29,7 @@ const ProductDetailScreen = (props) => {
 		</ScrollView>
 	)
 }
-ProductDetailScreen.navigationOptions = (navData) => {
+ProductDetailScreen.navigationOptions = navData => {
 	return {
 		headerTitle: navData.navigation.getParam('productTitle'),
 	}
