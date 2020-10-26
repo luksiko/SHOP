@@ -27,6 +27,15 @@ const ProductsOverviewScreen = props => {
 		setIsLoading(false)
 	}, [dispatch, setError, setIsLoading])
 
+	// добавляем слушатель на смену экрана. До загрузки срабатывает. Позволяет обновлять данные на странице
+	useEffect(() => {
+		const willFocuceSub = props.navigation.addListener('willFocus', loadProducts)
+
+		return () => {
+			willFocuceSub.remove()
+		}
+	}, [loadProducts])
+
 	useEffect(() => {
 		loadProducts()
 	}, [dispatch, loadProducts])
