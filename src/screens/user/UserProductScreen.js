@@ -1,5 +1,5 @@
-import React from 'react'
-import { FlatList, Platform, Button, Alert } from 'react-native'
+import React, { useState, useCallback, useEffect } from 'react'
+import { FlatList, Platform, Button, Alert, View, ActivityIndicator, StyleSheet } from 'react-native'
 import ProductItem from '../../components/shop/ProductItem'
 import { useSelector, useDispatch } from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -7,41 +7,64 @@ import CustomHeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
 import * as productsActions from '../../store/actions/products'
 
-const UserProductScreen = (props) => {
-	const userProducts = useSelector((state) => state.products.userProducts)
+const UserProductScreen = props => {
+	const [isLoading, setIsLoading] = useState(false)
+	const [error, setError] = useState()
+	const userProducts = useSelector(state => state.products.userProducts)
 	const dispatch = useDispatch()
 
-	const editProductHandler = (id) => {
+	const editProductHandler = id => {
 		props.navigation.navigate('EditProduct', { productId: id })
 	}
+	const delProducts = useCallback(
+		async id => {
+			setError(null)
+			setIsLoading(true)
+			try {
+				await dispatch(productsActions.deleteProduct(id))
+			} catch (err) {
+				setError(err.message)
+			}
+			setIsLoading(false)
+		},
+		[dispatch, setError, setIsLoading],
+	)
 
-	const deleteHandler = (id) => {
+	useEffect(() => {
+		if (error) {
+			Alert.alert('An error occurred!', error, [{ text: 'Okay' }])
+		}
+	}, [error])
+
+	const deleteHandler = id => {
 		Alert.alert('Are you sure?', 'Do you really want delete this item?', [
 			{ text: 'No', style: 'default' },
 			{
 				text: 'Yes',
 				style: 'destructive',
-				onPress: () => {
-					dispatch(productsActions.deleteProduct(id))
-				},
+				onPress: () => delProducts(id),
 			},
 		])
+	}
+
+	if (isLoading) {
+		return (
+			<View style={styles.centered}>
+				<ActivityIndicator size='large' color={Colors.primary} />
+			</View>
+		)
 	}
 
 	return (
 		<FlatList
 			data={userProducts}
-			renderItem={(itemData) => (
+			renderItem={itemData => (
 				<ProductItem
 					title={itemData.item.title}
 					uri={itemData.item.imageUrl}
 					price={itemData.item.price}
 					onSelectItem={() => {}}>
-					<Button
-						color={Colors.primary}
-						title='Edit'
-						onPress={() => editProductHandler(itemData.item.id)}
-					/>
+					<Button color={Colors.primary} title='Edit' onPress={() => editProductHandler(itemData.item.id)} />
 					<Button
 						color={Colors.primary}
 						title='Delete'
@@ -54,7 +77,7 @@ const UserProductScreen = (props) => {
 		/>
 	)
 }
-UserProductScreen.navigationOptions = (navData) => {
+UserProductScreen.navigationOptions = navData => {
 	return {
 		headerTitle: 'Your Products',
 		headerLeft: (
@@ -83,4 +106,13 @@ UserProductScreen.navigationOptions = (navData) => {
 		),
 	}
 }
+
+const styles = StyleSheet.create({
+	centered: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+})
+
 export default UserProductScreen

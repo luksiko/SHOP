@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { View, Platform, FlatList, Button, ActivityIndicator, StyleSheet, Text } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as cartActions from '../../store/actions/cart'
@@ -7,7 +7,6 @@ import ProductItem from '../../components/shop/ProductItem'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
-import { useCallback } from 'react'
 
 const ProductsOverviewScreen = props => {
 	const [isLoading, setIsLoading] = useState(false)
