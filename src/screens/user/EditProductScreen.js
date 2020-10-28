@@ -11,8 +11,8 @@ import {
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
 
-import * as productsActions from '../../store/actions/products'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
+import * as productsActions from '../../store/actions/products'
 import Input from '../../components/UI/Input'
 import Colors from '../../constants/Colors'
 
@@ -33,9 +33,9 @@ const formReducer = (state, action) => {
 			updatedFormIsValid = updatedFormIsValid && updatedValidities[key]
 		}
 		return {
-			inputValues: updatedValues,
-			inputValidities: updatedValidities,
 			formIsValid: updatedFormIsValid,
+			inputValidities: updatedValidities,
+			inputValues: updatedValues,
 		}
 	}
 	return state
@@ -74,7 +74,7 @@ const EditProductScreen = props => {
 
 	const submitHandler = useCallback(async () => {
 		if (!formState.formIsValid) {
-			Alert.alert('Wrong input!', 'Please check the errors in the form', [{ text: 'Okay' }])
+			Alert.alert('Wrong input!', 'Please check the errors in the form.', [{ text: 'Okay' }])
 			return
 		}
 		setError(null)
@@ -139,7 +139,7 @@ const EditProductScreen = props => {
 					<Input
 						id='title'
 						label='Title'
-						errorText='Please enter a valide title'
+						errorText='Please enter a valid title!'
 						keyboardType='default'
 						autoCapitalize='sentences'
 						autoCorrect
@@ -151,8 +151,8 @@ const EditProductScreen = props => {
 					/>
 					<Input
 						id='imageUrl'
-						label='Image URL'
-						errorText='Please enter a valide Image URL'
+						label='Image Url'
+						errorText='Please enter a valid image url!'
 						keyboardType='default'
 						returnKeyType='next'
 						onInputChange={inputChangeHandler}
@@ -160,11 +160,11 @@ const EditProductScreen = props => {
 						initiallyValid={!!editedProduct}
 						required
 					/>
-					{!editedProduct && (
+					{editedProduct ? null : (
 						<Input
 							id='price'
 							label='Price'
-							errorText='Please enter a valide Price'
+							errorText='Please enter a valid price!'
 							keyboardType='decimal-pad'
 							returnKeyType='next'
 							onInputChange={inputChangeHandler}
@@ -175,7 +175,7 @@ const EditProductScreen = props => {
 					<Input
 						id='description'
 						label='Description'
-						errorText='Please enter a valide Description'
+						errorText='Please enter a valid description!'
 						keyboardType='default'
 						autoCapitalize='sentences'
 						autoCorrect
