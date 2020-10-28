@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { FlatList, Platform, Button, Alert, View, ActivityIndicator, StyleSheet } from 'react-native'
+import { FlatList, Platform, Button, Alert, View, Text, ActivityIndicator, StyleSheet } from 'react-native'
 import ProductItem from '../../components/shop/ProductItem'
 import { useSelector, useDispatch } from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -51,6 +51,14 @@ const UserProductScreen = props => {
 		return (
 			<View style={styles.centered}>
 				<ActivityIndicator size='large' color={Colors.primary} />
+			</View>
+		)
+	}
+
+	if (userProducts.length === 0) {
+		return (
+			<View style={styles.centered}>
+				<Text>No products found. Maybe start creating some?</Text>
 			</View>
 		)
 	}
