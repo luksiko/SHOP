@@ -12,6 +12,7 @@ const ProductsOverviewScreen = props => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [isRefreshing, setIsRefreshing] = useState(false)
 	const [error, setError] = useState()
+	const [counting, setCounting] = useState(0)
 	const products = useSelector(state => state.products.availableProducts)
 	const dispatch = useDispatch()
 
@@ -41,6 +42,10 @@ const ProductsOverviewScreen = props => {
 		loadProducts().then(() => setIsLoading(false))
 	}, [dispatch, loadProducts])
 
+	useEffect(() => {
+		props.navigation.setParams({ counting: counting })
+	}, [counting])
+
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('ProductDetail', {
 			productId: id,
@@ -63,7 +68,6 @@ const ProductsOverviewScreen = props => {
 			</View>
 		)
 	}
-
 	if (!isLoading && products.length === 0) {
 		return (
 			<View style={styles.centered}>
@@ -90,7 +94,10 @@ const ProductsOverviewScreen = props => {
 					<Button
 						color={Colors.primary}
 						title='To Cart'
-						onPress={() => dispatch(cartActions.addToCart(itemData.item))}
+						onPress={() => {
+							setCounting(counting + 1)
+							dispatch(cartActions.addToCart(itemData.item))
+						}}
 					/>
 				</ProductItem>
 			)}
@@ -98,6 +105,7 @@ const ProductsOverviewScreen = props => {
 	)
 }
 ProductsOverviewScreen.navigationOptions = navData => {
+	const countingFn = +navData.navigation.getParam('counting')
 	return {
 		headerTitle: 'All Products',
 		headerLeft: () => (
@@ -114,11 +122,16 @@ ProductsOverviewScreen.navigationOptions = navData => {
 		),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-				<Item
-					title='Cart'
-					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-					onPress={() => navData.navigation.navigate('CardScreen')}
-				/>
+				<View>
+					<View style={styles.container}>
+						<Text style={styles.number}>{countingFn}</Text>
+					</View>
+					<Item
+						title='Cart'
+						iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+						onPress={() => navData.navigation.navigate('CardScreen')}
+					/>
+				</View>
 			</HeaderButtons>
 		),
 	}
@@ -128,6 +141,23 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	number: {
+		fontFamily: 'open-sans-bold',
+		color: Colors.primary,
+	},
+	container: {
+		position: 'absolute',
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: Colors.accent,
+		borderRadius: 8,
+		width: 16,
+		height: 16,
+		zIndex: 9,
+		left: 16,
+		top: -6,
 	},
 })
 export default ProductsOverviewScreen

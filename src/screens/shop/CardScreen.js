@@ -9,7 +9,6 @@ import Card from '../../components/UI/Card'
 
 const CartScreen = props => {
 	const [isLoading, setIsLoading] = useState(false)
-	const [error, setError] = useState()
 
 	const cartTotalAmount = useSelector(state => state.cart.totalAmount)
 	const cartItems = useSelector(state => {
@@ -63,7 +62,9 @@ const CartScreen = props => {
 						title={itemData.item.productTitle}
 						amount={itemData.item.sum}
 						deletable
-						onRemove={() => dispatch(cartActions.removeFromCart(itemData.item.productId))}
+						onRemove={() => {
+							dispatch(cartActions.removeFromCart(itemData.item.productId))
+						}}
 					/>
 				)}
 			/>

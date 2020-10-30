@@ -1,8 +1,8 @@
 import React from 'react'
-import { Platform, SafeAreaView, Button, View } from 'react-native'
+import { Platform, SafeAreaView, Button, View, Text, StyleSheet } from 'react-native'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
-import { createDrawerNavigator, DrawerItems, DrawerNavigatorItems } from 'react-navigation-drawer'
+import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer'
 import { useDispatch } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons'
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen'
@@ -137,6 +137,10 @@ const MainNavigator = createSwitchNavigator({
 	Startup: StartupScreen,
 	Auth: AuthNavigator,
 	Shop: ShopNavigator,
+})
+
+const styles = StyleSheet.create({
+	number: {},
 })
 
 export default createAppContainer(MainNavigator) // главным делаем табы
