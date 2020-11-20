@@ -5,7 +5,7 @@ import * as cartActions from '../../store/actions/cart'
 import * as productsActions from '../../store/actions/products'
 import ProductItem from '../../components/shop/ProductItem'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import CustomHeaderButton from '../../components/UI/HeaderButton'
+import HeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
 
 const ProductsOverviewScreen = props => {
@@ -104,38 +104,35 @@ const ProductsOverviewScreen = props => {
 		/>
 	)
 }
-ProductsOverviewScreen.navigationOptions = navData => {
-	const countingFn = +navData.navigation.getParam('counting')
+
+export const screenOptions = navData => {
 	return {
 		headerTitle: 'All Products',
 		headerLeft: () => (
-			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+			<HeaderButtons HeaderButtonComponent={HeaderButton}>
 				<Item
 					title='Menu'
 					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-					iconSize={27}
 					onPress={() => {
 						navData.navigation.toggleDrawer()
 					}}
 				/>
 			</HeaderButtons>
 		),
-		headerRight: (
-			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-				<View>
-					<View style={styles.container}>
-						<Text style={styles.number}>{countingFn}</Text>
-					</View>
-					<Item
-						title='Cart'
-						iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-						onPress={() => navData.navigation.navigate('CardScreen')}
-					/>
-				</View>
+		headerRight: () => (
+			<HeaderButtons HeaderButtonComponent={HeaderButton}>
+				<Item
+					title='Cart'
+					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					onPress={() => {
+						navData.navigation.navigate('Cart')
+					}}
+				/>
 			</HeaderButtons>
 		),
 	}
 }
+
 const styles = StyleSheet.create({
 	centered: {
 		flex: 1,
